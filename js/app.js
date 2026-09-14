@@ -357,6 +357,7 @@
     if (window.NavigationTracker) {
       window.NavigationTracker.renderSidebar();
       window.NavigationTracker.initProgressBar();
+      window.NavigationTracker.initSidebarResizer();
     }
     initRouter();
     initSearchModal();

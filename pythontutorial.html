@@ -77,8 +77,27 @@
     <!-- Mobile Sidebar Backdrop -->
     <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="window.NavigationTracker.closeMobileSidebar()"></div>
 
-    <!-- Collapsible Sidebar Navigation -->
+    <!-- Floating Expand Button for Desktop when Sidebar is Collapsed -->
+    <button class="sidebar-floating-toggle" id="sidebar-floating-toggle" title="Show Curriculum Menu">
+      <i class="fa-solid fa-bars"></i>
+      <span>Curriculum Menu</span>
+    </button>
+
+    <!-- Collapsible & Resizable Sidebar Navigation -->
     <aside class="app-sidebar" id="app-sidebar">
+      <!-- Sidebar Width Adjustment Toolbar -->
+      <div class="sidebar-width-toolbar">
+        <div class="width-presets-group" title="Quick Width Presets">
+          <span class="width-label"><i class="fa-solid fa-arrows-left-right"></i> Width:</span>
+          <button type="button" class="btn-width-preset" data-width="210" title="Narrow Sidebar (210px)">Narrow</button>
+          <button type="button" class="btn-width-preset active" data-width="280" title="Default Sidebar (280px)">Default</button>
+          <button type="button" class="btn-width-preset" data-width="360" title="Broad Sidebar (360px)">Broad</button>
+        </div>
+        <button type="button" class="btn-sidebar-collapse" id="sidebar-collapse-btn" title="Collapse Sidebar Menu">
+          <i class="fa-solid fa-angles-left"></i>
+        </button>
+      </div>
+
       <div class="sidebar-search-box">
         <div class="sidebar-input-wrapper">
           <i class="fa-solid fa-filter"></i>
@@ -90,6 +109,9 @@
       <!-- Curriculum Accordion Tree Mount -->
       <nav class="curriculum-tree" id="curriculum-tree" aria-label="Curriculum Navigation"></nav>
     </aside>
+
+    <!-- Draggable Sidebar Resizer Handle -->
+    <div class="sidebar-resizer" id="sidebar-resizer" title="Drag to adjust sidebar width (Double-click to reset)"></div>
 
     <!-- Reading & Interactive Execution Main Pane -->
     <main class="app-main" id="app-main">

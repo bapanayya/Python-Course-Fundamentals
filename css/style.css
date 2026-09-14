@@ -41,7 +41,7 @@
   --modal-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
   --header-height: 64px;
-  --sidebar-width: 310px;
+  --sidebar-width: 280px;
   --content-max-width: 1040px;
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -429,7 +429,7 @@ body {
   overflow: hidden;
 }
 
-/* ================= Sidebar Navigation ================= */
+/* ================= Sidebar Navigation & Width Controls ================= */
 .app-sidebar {
   width: var(--sidebar-width);
   background-color: var(--bg-sidebar);
@@ -444,11 +444,172 @@ body {
   transition: transform var(--transition-normal);
 }
 
-.sidebar-search-box {
-  padding: 0.85rem 1rem;
+.app-sidebar.collapsed-desktop {
+  width: 0 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  border-right: none !important;
+  padding: 0 !important;
+  visibility: hidden;
+}
+
+/* Sidebar Width Toolbar (Narrow, Default, Broad Presets & Collapse) */
+.sidebar-width-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  background-color: var(--bg-hover);
   border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
+  z-index: 12;
+  font-size: 0.74rem;
+}
+
+.width-presets-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.width-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-right: 0.15rem;
+}
+
+.btn-width-preset {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  color: var(--text-secondary);
+  font-size: 0.67rem;
+  font-weight: 600;
+  padding: 0.18rem 0.48rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-width-preset:hover {
+  background: var(--bg-surface);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-width-preset.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+}
+
+.btn-sidebar-collapse {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.72rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-sidebar-collapse:hover {
+  background: var(--bg-surface);
+  color: var(--primary);
+  border-color: var(--border-medium);
+}
+
+/* Draggable Splitter Divider between Sidebar and Main Content */
+.sidebar-resizer {
+  width: 6px;
+  background: transparent;
+  cursor: col-resize;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 90;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.sidebar-resizer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2px;
+  width: 2px;
+  background: var(--border-subtle);
+  transition: all 0.15s ease;
+}
+
+.sidebar-resizer:hover,
+.sidebar-resizer.dragging {
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.sidebar-resizer:hover::after,
+.sidebar-resizer.dragging::after {
+  background: var(--primary);
+  width: 3px;
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+}
+
+body.resizing-sidebar {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+body.resizing-sidebar iframe,
+body.resizing-sidebar textarea {
+  pointer-events: none !important;
+}
+
+/* Floating Expand Trigger when Sidebar is Hidden on Desktop */
+.sidebar-floating-toggle {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 75px;
+  z-index: 1002;
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.sidebar-floating-toggle:hover {
+  background: var(--primary-hover);
+  transform: translateX(2px);
+}
+
+.sidebar-floating-toggle.visible {
+  display: inline-flex;
+}
+
+.sidebar-search-box {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 36px;
   background-color: var(--bg-sidebar);
   z-index: 10;
 }
@@ -569,6 +730,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.45rem;
   padding: 0.42rem 0.75rem;
   font-size: 0.82rem;
   font-weight: 500;
@@ -577,6 +739,14 @@ body {
   border-radius: var(--radius-sm);
   transition: all var(--transition-fast);
   line-height: 1.35;
+}
+
+.topic-item a span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .topic-item a:hover {
@@ -1232,6 +1402,12 @@ body {
 @media (max-width: 860px) {
   .menu-toggle-btn {
     display: flex;
+  }
+
+  .sidebar-resizer,
+  .sidebar-width-toolbar,
+  .sidebar-floating-toggle {
+    display: none !important;
   }
 
   .app-sidebar {

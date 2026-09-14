@@ -58,7 +58,7 @@
 
         html += `
           <li class="topic-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" id="nav_item_${tid}">
-            <a href="#${tid}" onclick="window.NavigationTracker.closeMobileSidebar()">
+            <a href="#${tid}" title="${t.title}" onclick="window.NavigationTracker.closeMobileSidebar()">
               <span>${t.title}</span>
               <i class="fa-solid fa-circle-check check-icon" title="Completed"></i>
             </a>
@@ -180,6 +180,123 @@
     });
   }
 
+  // Sidebar Width Adjustment, Dragging & Desktop Collapse
+  function initSidebarResizer() {
+    const sidebar = document.getElementById('app-sidebar');
+    const resizer = document.getElementById('sidebar-resizer');
+    const collapseBtn = document.getElementById('sidebar-collapse-btn');
+    const floatingToggle = document.getElementById('sidebar-floating-toggle');
+    const presetBtns = document.querySelectorAll('.btn-width-preset');
+
+    if (!sidebar) return;
+
+    const STORAGE_KEY = 'svagdc_sidebar_width';
+    const MIN_WIDTH = 190;
+    const MAX_WIDTH = 520;
+    const DEFAULT_WIDTH = 280;
+
+    function updatePresetButtons(currentWidth) {
+      presetBtns.forEach(btn => {
+        const targetWidth = parseInt(btn.dataset.width, 10);
+        if (Math.abs(targetWidth - currentWidth) <= 30) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function applyWidth(width, save = true) {
+      const clamped = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, width));
+      document.documentElement.style.setProperty('--sidebar-width', `${clamped}px`);
+      sidebar.classList.remove('collapsed-desktop');
+      if (floatingToggle) floatingToggle.classList.remove('visible');
+      updatePresetButtons(clamped);
+
+      if (save) {
+        try {
+          localStorage.setItem(STORAGE_KEY, clamped.toString());
+        } catch (e) {}
+      }
+    }
+
+    // Load saved width from localStorage on startup
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        applyWidth(parseInt(saved, 10), false);
+      } else {
+        applyWidth(DEFAULT_WIDTH, false);
+      }
+    } catch (e) {
+      applyWidth(DEFAULT_WIDTH, false);
+    }
+
+    // Draggable Resizer Logic
+    if (resizer) {
+      let isDragging = false;
+      let startX = 0;
+      let startWidth = DEFAULT_WIDTH;
+
+      resizer.addEventListener('mousedown', (e) => {
+        if (window.innerWidth <= 860) return;
+        e.preventDefault();
+        isDragging = true;
+        startX = e.clientX;
+        const currentW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-width'), 10) || DEFAULT_WIDTH;
+        startWidth = currentW;
+
+        document.body.classList.add('resizing-sidebar');
+        resizer.classList.add('dragging');
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaX = e.clientX - startX;
+        applyWidth(startWidth + deltaX, true);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          document.body.classList.remove('resizing-sidebar');
+          resizer.classList.remove('dragging');
+        }
+      });
+
+      // Double-click resizer to quickly reset to default width
+      resizer.addEventListener('dblclick', () => {
+        applyWidth(DEFAULT_WIDTH, true);
+      });
+    }
+
+    // Width preset buttons (Narrow / Default / Broad)
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const w = parseInt(btn.dataset.width, 10);
+        if (!isNaN(w)) {
+          applyWidth(w, true);
+        }
+      });
+    });
+
+    // Collapse sidebar button
+    if (collapseBtn) {
+      collapseBtn.addEventListener('click', () => {
+        sidebar.classList.add('collapsed-desktop');
+        if (floatingToggle) floatingToggle.classList.add('visible');
+      });
+    }
+
+    // Floating expand button
+    if (floatingToggle) {
+      floatingToggle.addEventListener('click', () => {
+        sidebar.classList.remove('collapsed-desktop');
+        floatingToggle.classList.remove('visible');
+      });
+    }
+  }
+
   window.NavigationTracker = {
     renderSidebar: renderSidebar,
     updateActiveTopic: updateActiveTopic,
@@ -188,7 +305,8 @@
     markCurrentTopicCompleted: markCurrentTopicCompleted,
     toggleMobileSidebar: toggleMobileSidebar,
     closeMobileSidebar: closeMobileSidebar,
-    initProgressBar: initProgressBar
+    initProgressBar: initProgressBar,
+    initSidebarResizer: initSidebarResizer
   };
 
 })();
