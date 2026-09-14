@@ -1,0 +1,512 @@
+/* ==========================================================================
+   Python-SVAGDC: Code Runner & "Test Your Understanding" Styles
+   ========================================================================== */
+
+/* Container for Interactive Code Playground */
+.code-runner-card {
+  background-color: #0b1120;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-lg);
+  margin: 1.75rem 0;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .code-runner-card {
+  background-color: #0f172a;
+  border-color: #334155;
+}
+
+/* Card Header with Educational Branding */
+.code-runner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1.1rem;
+  background-color: #080d1a;
+  border-bottom: 1px solid #1e293b;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.runner-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.runner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(59, 130, 246, 0.25));
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.runner-file-label {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: #94a3b8;
+}
+
+.runner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.runner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.btn-run {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.btn-run:hover {
+  background: linear-gradient(135deg, #34d399, #10b981);
+  transform: translateY(-1px);
+}
+
+.btn-run:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.btn-secondary {
+  background-color: #1e293b;
+  color: #cbd5e1;
+  border-color: #334155;
+}
+
+.btn-secondary:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+/* Split Pane for Code and Output */
+.runner-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 240px;
+}
+
+@media (max-width: 860px) {
+  .runner-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Code Editor Pane */
+.editor-pane {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #1e293b;
+  position: relative;
+  background-color: #0b1120;
+}
+
+@media (max-width: 860px) {
+  .editor-pane {
+    border-right: none;
+    border-bottom: 1px solid #1e293b;
+  }
+}
+
+.code-editor-textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  background: transparent;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  padding: 1rem 1.1rem;
+  border: none;
+  resize: vertical;
+  outline: none;
+  white-space: pre;
+  tab-size: 4;
+}
+
+/* Output Console Pane */
+.output-pane {
+  background-color: #060913;
+  display: flex;
+  flex-direction: column;
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 1rem;
+  background-color: #080d1a;
+  border-bottom: 1px solid #1e293b;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+.output-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+.status-dot.running {
+  background-color: #f59e0b;
+  animation: pulseDot 1s infinite;
+}
+
+.status-dot.error {
+  background-color: #ef4444;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.output-content {
+  flex: 1;
+  padding: 1rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #cbd5e1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  min-height: 180px;
+}
+
+.output-content.error {
+  color: #f87171;
+}
+
+/* ==========================================================================
+   "Test Your Understanding" Exercise Card Component
+   ========================================================================== */
+.quiz-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  margin: 2.5rem 0;
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--card-shadow);
+}
+
+.quiz-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.quiz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(245, 158, 11, 0.12);
+  color: var(--accent-amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.quiz-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border-medium);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.quiz-item-block {
+  padding: 1.25rem;
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  transition: border-color var(--transition-fast);
+}
+
+.quiz-item-block:last-child {
+  margin-bottom: 0;
+}
+
+.quiz-item-block:hover {
+  border-color: var(--border-medium);
+}
+
+.quiz-q-num {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+}
+
+.quiz-question {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.45;
+}
+
+.quiz-code-prompt {
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-primary);
+}
+
+.quiz-code-prompt input {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  background-color: var(--bg-surface);
+  border: 1.5px dashed var(--primary);
+  border-radius: 4px;
+  color: var(--primary);
+  padding: 0.15rem 0.5rem;
+  width: 120px;
+  text-align: center;
+  outline: none;
+}
+
+.quiz-code-prompt input:focus {
+  border-style: solid;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.quiz-option-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background-color: var(--bg-surface);
+  transition: all var(--transition-fast);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+}
+
+.quiz-option-label:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-focus);
+}
+
+.quiz-option-label input[type="radio"] {
+  accent-color: var(--primary);
+  width: 17px;
+  height: 17px;
+}
+
+.quiz-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-check-answer {
+  background-color: var(--primary);
+  color: #ffffff;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-md);
+  font-size: 0.86rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-check-answer:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-show-solution {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-medium);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-show-solution:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.quiz-feedback {
+  margin-top: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  display: none;
+  line-height: 1.5;
+}
+
+.quiz-feedback.correct {
+  display: block;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  color: #059669;
+}
+
+[data-theme="dark"] .quiz-feedback.correct {
+  color: #34d399;
+}
+
+.quiz-feedback.incorrect {
+  display: block;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #dc2626;
+}
+
+[data-theme="dark"] .quiz-feedback.incorrect {
+  color: #f87171;
+}
+
+/* ==========================================================================
+   Matplotlib Graphical Plot Output Styling
+   ========================================================================== */
+.rendered-plot-card {
+  margin-top: 1rem;
+  background-color: #0d1527;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.rendered-plot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem;
+  background-color: #111a33;
+  border-bottom: 1px solid #1e293b;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #38bdf8;
+  font-family: var(--font-mono);
+}
+
+.plot-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background-color: #1e293b;
+  color: #e2e8f0;
+  font-size: 0.72rem;
+  text-decoration: none;
+  border: 1px solid #334155;
+  transition: all var(--transition-fast);
+}
+
+.plot-save-btn:hover {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.rendered-plot-body {
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+}
+
+.rendered-plot-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.console-text-log {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.editor-subtext {
+  padding: 0.45rem 1rem;
+  background-color: #0d1527;
+  border-bottom: 1px solid #1e293b;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.editor-subtext i {
+  color: #38bdf8;
+}

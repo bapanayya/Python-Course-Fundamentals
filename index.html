@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Master Portal | Department of Physics, S.V.A. Govt. Degree College, Srikalahasti</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Bespoke Theme & Code Runner Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/code-runner.css">
+
+  <!-- Pyodide WebAssembly in-browser Python 3 Engine -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js" defer></script>
+</head>
+<body>
+
+  <!-- Top Reading Progress Indicator -->
+  <div id="read-progress-bar"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <button class="menu-toggle-btn" id="menu-toggle-btn" onclick="window.NavigationTracker.toggleMobileSidebar()" aria-label="Toggle Curriculum Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <a href="#python-intro" class="brand-badge">
+        <div class="brand-logo-icon">
+          <i class="fa-brands fa-python"></i>
+        </div>
+        <div class="brand-title-group">
+          <h1>S.V.A. GOVT. DEGREE COLLEGE, SRIKALAHASTI</h1>
+          <p>Department of Physics | Python Master Portal</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Quick Track Switcher Pills -->
+    <nav class="track-switcher" aria-label="Curriculum Tracks">
+      <a href="#python-intro" class="track-pill active" data-track="track-core">Python Core</a>
+      <a href="#python-oop-concepts" class="track-pill" data-track="track-oop">OOP Classes</a>
+      <a href="#file-handling-intro" class="track-pill" data-track="track-files">Files</a>
+      <a href="#numpy-intro" class="track-pill" data-track="track-numpy">NumPy</a>
+      <a href="#pandas-intro" class="track-pill" data-track="track-pandas">Pandas</a>
+      <a href="#scipy-intro-constants" class="track-pill" data-track="track-scipy">SciPy</a>
+      <a href="#matplotlib-intro-pyplot" class="track-pill" data-track="track-matplotlib">Matplotlib</a>
+    </nav>
+
+    <div class="header-right">
+      <a href="https://www.youtube.com/@TheCompetitiveEdge-b4z" target="_blank" rel="noopener noreferrer" class="yt-promo-btn" title="Visit our Official YouTube Channel: The Competitive Edge (S.V.A. Govt. Degree College, Srikalahasti)" aria-label="Visit The Competitive Edge Official YouTube Channel">
+        <img src="Logo-TheCompetitiveEdge.jpg" alt="The Competitive Edge" class="yt-promo-logo">
+        <div class="yt-text-box">
+          <span class="yt-channel-label"><i class="fa-brands fa-youtube yt-red-icon"></i> Official YouTube Channel</span>
+          <span class="yt-channel-name">The Competitive Edge</span>
+        </div>
+        <span class="yt-subscribe-badge" title="Watch on YouTube">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </span>
+      </a>
+
+      <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- App Main Layout Container -->
+  <div class="app-container">
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="window.NavigationTracker.closeMobileSidebar()"></div>
+
+    <!-- Collapsible Sidebar Navigation -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <div class="sidebar-search-box">
+        <div class="sidebar-input-wrapper">
+          <i class="fa-solid fa-filter"></i>
+          <input type="text" class="sidebar-search-input" id="sidebar-search-input" placeholder="Filter curriculum topics..." autocomplete="off">
+          <kbd class="sidebar-search-kbd">Ctrl K</kbd>
+        </div>
+      </div>
+
+      <!-- Curriculum Accordion Tree Mount -->
+      <nav class="curriculum-tree" id="curriculum-tree" aria-label="Curriculum Navigation"></nav>
+    </aside>
+
+    <!-- Reading & Interactive Execution Main Pane -->
+    <main class="app-main" id="app-main">
+      <div class="content-wrapper" id="topic-content-mount">
+        <!-- Dynamic Topic Content Injected via app.js -->
+        <div style="padding: 3rem 1rem; text-align: center; color: var(--text-muted);">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary);"></i>
+          <p>Loading course modules...</p>
+        </div>
+      </div>
+
+      <!-- Big Size YouTube Channel Promotion Banner -->
+      <section class="bottom-yt-promo-container" aria-label="Official YouTube Channel Promotion">
+        <div class="bottom-yt-card">
+          <div class="bottom-yt-left">
+            <img src="Logo-TheCompetitiveEdge.jpg" alt="The Competitive Edge Crest Logo" class="bottom-yt-crest">
+          </div>
+          <div class="bottom-yt-body">
+            <div class="bottom-yt-badge">
+              <i class="fa-brands fa-youtube"></i> OFFICIAL YOUTUBE CHANNEL
+            </div>
+            <h2 class="bottom-yt-title">The Competitive Edge</h2>
+            <p class="bottom-yt-subtitle">
+              Department of Physics &bull; S.V.A. Govt. Degree College, Srikalahasti
+            </p>
+            <div class="bottom-yt-desc">
+              <p>
+                <strong>Welcome to The Competitive Edge</strong> &mdash; your one-stop destination for smart and effective competitive exam preparation! 🎯
+              </p>
+              <p>
+                It is a complete package by itself for job aspirants. We are dedicated to helping aspirants build the knowledge, skills, confidence, and competitive edge needed to succeed in government and other competitive examinations.
+              </p>
+              
+              <div class="bottom-yt-features-title">
+                📚 What you’ll find on this channel:
+              </div>
+              <ul class="bottom-yt-grid">
+                <li><span>📰</span> Daily Current Affairs &amp; Current Affairs Quizzes</li>
+                <li><span>🔢</span> Quantitative Aptitude &amp; Arithmetic</li>
+                <li><span>🧠</span> Reasoning &ndash; Verbal &amp; Non-Verbal</li>
+                <li><span>📖</span> General English &amp; Vocabulary</li>
+                <li><span>🔬</span> General Science</li>
+                <li><span>✍️</span> Grammar, Concepts &amp; Exam Strategies</li>
+                <li><span>🎯</span> Practice Questions, Quizzes &amp; Revision</li>
+                <li><span>💡</span> Tips, Shortcuts &amp; Smart Learning Techniques</li>
+              </ul>
+
+              <div class="bottom-yt-target-exams">
+                Our content is designed especially for aspirants preparing for exams such as UPSC, SSC, SSC CGL, Banking, Railways, APPSC, TSPSC, State PSCs, Police, Defence, and other competitive examinations.
+              </div>
+            </div>
+            <div class="bottom-yt-actions">
+              <a href="https://www.youtube.com/@TheCompetitiveEdge-b4z" target="_blank" rel="noopener noreferrer" class="btn-yt-big-subscribe" title="Subscribe to The Competitive Edge on YouTube">
+                <i class="fa-brands fa-youtube"></i> Subscribe &amp; Watch Videos <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+              <span class="bottom-yt-stat"><i class="fa-solid fa-circle-check"></i> Free Academic Lectures &amp; Competitive Exam Prep</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div class="footer-dept-badge">DEPARTMENT OF PHYSICS</div>
+        <p>S.V.A. Govt. Degree College, Srikalahasti, Tirupati District, Andhra Pradesh</p>
+        <p style="margin-top: 0.35rem; font-size: 0.76rem; color: var(--text-muted);">
+          Master Python Curriculum &bull; Department of Physics &bull; In-Browser WebAssembly Python 3 Execution
+        </p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Global Fast Search Modal -->
+  <div class="search-modal-backdrop" id="search-modal-backdrop">
+    <div class="search-modal">
+      <div class="search-modal-header">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-modal-input" id="search-modal-input" placeholder="Search Python topics, NumPy, Pandas, Matplotlib..." autocomplete="off">
+        <button class="search-modal-close" id="search-modal-close" aria-label="Close search modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <ul class="search-results-list" id="search-results-list"></ul>
+    </div>
+  </div>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/curriculum_data.js"></script>
+  <script src="js/runner.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
